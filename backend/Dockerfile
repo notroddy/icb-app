@@ -50,6 +50,9 @@ RUN pip install poetry==1.3.1 && \
 # Copy the rest of your backend code into the container
 COPY ./backend /opt/app/
 
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
 # Copy entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/
 

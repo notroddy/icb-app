@@ -1,0 +1,10 @@
+.master-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
+    margin-top: 50px;
+    border-radius: 10px;
+    transition: all 0.3s ease; /* Smooth transition for layout changes */
+}
