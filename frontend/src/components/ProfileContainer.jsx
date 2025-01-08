@@ -91,11 +91,11 @@ const ProfileContainer = () => {
         <h3>Stats</h3>
         <div className="stats-grid">
           <StatCard title="Number of Games" value={formatNumber(player.number_of_games)} />
+          <StatCard title="Highest Total Score" value={formatNumber(player.highest_game_score)} />
+          <StatCard title="Average Total Score" value={formatNumber(player.average_game_score)} />
           <StatCard title="Loops Completed" value={formatNumber(player.total_loops)} />
           <StatCard title="Highest Loop Score" value={formatNumber(player.highest_loop_score)} />
           <StatCard title="Average Loop Score" value={formatNumber(player.average_loop_score)} />
-          <StatCard title="Highest Total Score" value={formatNumber(player.highest_game_score)} />
-          <StatCard title="Average Total Score" value={formatNumber(player.average_game_score)} />
         </div>
       </div>
     </div>
