@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { createNewGameSession, resetTimeDisplay, resetScoreDisplay, startStopwatch, stopTimeDisplay, resetLoopDisplay } from '../utils/api';
 import './styles/ButtonContainer.css';
 
+/**
+ * ButtonContainer component that handles game start and end actions.
+ * @param {Object} props - Component props.
+ * @param {Function} props.setCountdown - Function to set the countdown timer.
+ */
 const ButtonContainer = ({ setCountdown }) => {
     const [isGameStarted, setIsGameStarted] = useState(false);
 
     const handleStartGame = () => {
-        setCountdown(3); // Start the countdown
+        setCountdown(3);
         setTimeout(() => {
             stopTimeDisplay();
             resetTimeDisplay();
@@ -15,7 +20,7 @@ const ButtonContainer = ({ setCountdown }) => {
             createNewGameSession();
             startStopwatch();
             setIsGameStarted(true);
-        }, 3000); // Delay the start game functions by 3 seconds
+        }, 3000);
     };
 
     const handleEndGame = () => {

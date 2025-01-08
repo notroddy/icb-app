@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
 class Country(models.Model):
+    """Model representing a country."""
     name = models.CharField(max_length=100)
     abbreviation = models.CharField(blank=False, null=False, default="", max_length=3)
 
@@ -14,8 +13,8 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
-
 class State(models.Model):
+    """Model representing a state."""
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
@@ -26,8 +25,8 @@ class State(models.Model):
     def __str__(self):
         return self.name
 
-
 class City(models.Model):
+    """Model representing a city."""
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
@@ -40,6 +39,7 @@ class City(models.Model):
         return self.name
     
 class Player(User):
+    """Model representing a player."""
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True, related_name="player_profile"
     )
@@ -56,8 +56,8 @@ class Player(User):
     def __str__(self):
         return self.username
 
-
 class Team(models.Model):
+    """Model representing a team."""
     name = models.CharField(max_length=100)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
@@ -71,9 +71,11 @@ class Team(models.Model):
         return self.name
     
     def number_of_members(self):
+        """Count the number of members in the team."""
         return self.player_set.count()
 
 class Arcade(models.Model):
+    """Model representing an arcade."""
     name = models.CharField(max_length=100)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)

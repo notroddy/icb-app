@@ -1,13 +1,11 @@
 .master-container {
     display: flex;
     flex-direction: row;
-    height: 55vh; /* Full height of the viewport */
+    height: 55vh;
 }
 
 .container-left {
     height: 100%;
-    
-
 }
 
 .container-right {

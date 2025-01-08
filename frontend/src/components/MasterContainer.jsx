@@ -3,6 +3,9 @@ import "./styles/MasterContainer.css";
 import ProfileContainer from "./ProfileContainer";
 import GameContainer from "./GameContainer";
 
+/**
+ * MasterContainer component that combines ProfileContainer and GameContainer.
+ */
 const MasterContainer = () => {
   return (
     <div className="master-container">

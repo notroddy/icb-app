@@ -5,10 +5,13 @@ import lowryParcade from "../assets/images/lowry_parcade.png";
 
 import { getPlayerData } from "../utils/api";
 import StatCard from "./StatCard";
-import SocialMediaHandles from "./SocialMediaHandles"; // Assuming this is the component we created earlier
+import SocialMediaHandles from "./SocialMediaHandles";
 
 const playerId = 1;
 
+/**
+ * ProfileContainer component to display player profile and statistics.
+ */
 const ProfileContainer = () => {
   const [player, setPlayer] = useState({
     username: "",
@@ -66,12 +69,10 @@ const ProfileContainer = () => {
         <span id="profile-name">
             <h3>{player.username}</h3>
             <hr />
-
             </span>
           <div className="info-section">
               <div className='profile-detail' id="location">{player.location}</div>
               <div className='profile-detail' id="home-arcade">{player.homeArcade}</div>
-
             <div className="social-media-handles">
               {player.twitch && (
                 <SocialMediaHandles data={{ twitch: player.twitch }} />

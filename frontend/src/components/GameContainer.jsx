@@ -3,6 +3,9 @@ import ScoreContainer from './ScoreContainer';
 import ButtonContainer from './ButtonContainer';
 import './styles/GameContainer.css';
 
+/**
+ * GameContainer component that includes ScoreContainer and ButtonContainer.
+ */
 const GameContainer = () => {
     const [countdown, setCountdown] = useState(null);
 

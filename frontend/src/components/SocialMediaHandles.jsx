@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube, faTwitch, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-// Add the specific icons to the library
 library.add(faYoutube, faTwitch, faInstagram);
 
 const iconMap = {
@@ -18,6 +17,11 @@ const urlMap = {
   instagram: (username) => `https://www.instagram.com/${username}`,
 };
 
+/**
+ * SocialMediaHandles component to display social media icons.
+ * @param {Object} props - Component props.
+ * @param {Object} props.data - Social media data.
+ */
 const SocialMediaHandles = ({ data }) => {
   return (
     <div>

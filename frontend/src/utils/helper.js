@@ -1,26 +1,22 @@
-// Variables
 let currentGameSessionId = null;
 
-// Import helper functions
 import { 
     getCSRFToken,
     updateGameSession,
     createNewGameSession
 } from './api.js';
 
-// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-
-    updateTimeDisplay(0, 0, 0, 0); // Initialize the time display to 00:00:00.00
-    updateScoreDisplay(); // Initialize the score display to 0
+    updateTimeDisplay(0, 0, 0, 0);
+    updateScoreDisplay();
 
     document.getElementById('start-game-btn').addEventListener('click', () => {
         console.log('Start Game button clicked');
         stopTimeDisplay();
         resetTimeDisplay();
         resetScoreDisplay();
-        createNewGameSession(); // Create a new game session when the page loads
-        startStopwatch(); // Start stopwatch
+        createNewGameSession();
+        startStopwatch();
     });
 
     document.getElementById('end-game-btn').addEventListener('click', () => {
@@ -34,25 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
         stopTimeDisplay();
         resetTimeDisplay();
         resetScoreDisplay();
-        createNewGameSession(); 
-        startStopwatch(); // Start stopwatch
-        });
-
-  
+        createNewGameSession();
+        startStopwatch();
+    });
 
     document.getElementById('loop-score-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const inputValue = parseInt(e.target.value, 10);
             if (!isNaN(inputValue)) {
                 animateScoreIncrement(inputValue);
-                e.target.value = ''; // Clear the input field
+                e.target.value = '';
             }
         }
     });
 
     document.getElementById('hole-score-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            const holeScore = parseInt(e.target.value, 10); // Get the hole score value
+            const holeScore = parseInt(e.target.value, 10);
 
             if (!isNaN(holeScore)) {
                 const holeNumberInput = document.getElementById('hole-number-input');
@@ -65,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let holeNumber = parseInt(holeNumberInput.value, 10) || 1;
                 let loopNumber = parseInt(loopNumberInput.value, 10) || 1;
 
-                updateGameSession(holeNumber, loopNumber, holeScore); // Update the game session with the hole score
+                updateGameSession(holeNumber, loopNumber, holeScore);
 
                 console.log(`Hole ${holeNumber} score: ${holeScore}`);
                 loopScoreInput.value = loopScore;

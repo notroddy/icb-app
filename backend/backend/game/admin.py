@@ -1,14 +1,13 @@
 from django.contrib import admin
 from backend.game.models import Game, GameSession, Loop
 
-# Register your models here.
 admin.site.register(Game)
 
-
 class LoopInline(admin.TabularInline):
+    """Inline admin for Loop model."""
     model = Loop
-    extra = 0  # No extra blank rows
-    can_delete = False  # Disable the delete option
+    extra = 0
+    can_delete = False
 
     fields = (
         "loop_number",
@@ -23,14 +22,15 @@ class LoopInline(admin.TabularInline):
         "hole_8_score",
         "hole_9_score",
         "hole_10_score",
-    )  # List all holes as separate fields
+    )
     readonly_fields = fields
 
     def total_score(self, obj):
+        """Format total score with commas."""
         return "{:,}".format(obj.total_score)
 
     total_score.short_description = "Total Score"
-    # Dynamically create methods for each hole score
+
     for i in range(1, 11):
         exec(
             f"""
@@ -45,8 +45,8 @@ hole_{i}_score.short_description = "Hole {i}"
         hole = obj.ordered_holes.filter(hole_number=hole_number).first()
         return hole.hole_score if hole else None
 
-
 class GameSessionAdmin(admin.ModelAdmin):
+    """Admin for GameSession model."""
     list_display = (
         "player",
         "game",
@@ -62,7 +62,7 @@ class GameSessionAdmin(admin.ModelAdmin):
         "arcade",
         "total_score",
         "number_of_loops",
-    )  # Add total_score as readonly
+    )
 
     fieldsets = (
         (
@@ -79,22 +79,20 @@ class GameSessionAdmin(admin.ModelAdmin):
         ),
     )
 
-    inlines = [LoopInline]  # Include the LoopInline for associated loops
+    inlines = [LoopInline]
 
     def display_total_score(self, obj):
+        """Format total score with commas."""
         if isinstance(obj.total_score, str):
             return obj.total_score
         else:
-            return "{:,}".format(obj.total_score)  # Format the total score with commas
+            return "{:,}".format(obj.total_score)
 
     def number_of_loops(self, obj):
-        return "{:,}".format(
-            obj.number_of_loops
-        )  # Format the number of loops with commas
+        """Format number of loops with commas."""
+        return "{:,}".format(obj.number_of_loops)
 
     display_total_score.short_description = "Total Score"
     number_of_loops.short_description = "Number of Loops"
 
-
-# Register GameSession with the custom GameSessionAdmin
 admin.site.register(GameSession, GameSessionAdmin)
