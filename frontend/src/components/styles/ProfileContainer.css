@@ -8,8 +8,8 @@
     align-items: center;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    color: #fff;
-    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    color:  #f9570c;
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a); /* Dark gradient for the whole container */
     font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -23,6 +23,7 @@
     background: rgba(0, 0, 0, 0.95);
     z-index: 1;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color:  #f9570c;
 }
 
 .profile-header::before {
@@ -59,9 +60,8 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-left: 20px;
+    margin-left: 30px;
     justify-content: flex-end;
-    padding-bottom: 20px;
 }
 
 .profile-details {
@@ -73,14 +73,16 @@
 }
 
 .profile-name {
+    color:  #fff;
+    font-size: 24px;
+    font-weight: 600;
     margin: 0;
-    color: #fff;
 }
 
 .profile-detail {
     margin: 5px 0;
     font-size: 14px;
-    color: #fff;
+    color:  #bebdbd;
     font-weight: 300;
     font-style: italic;
     display: block;
@@ -107,7 +109,7 @@
 
 .stats-section h3 {
     font-size: 20px;
-    color: #000;
+    color: #fff;
 }
 
 .socials-section {

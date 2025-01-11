@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./styles/ProfileContainer.css";
 import wizardImage from "../assets/images/wizard.png";
-import lowryParcade from "../assets/images/lowry_parcade.png";
 
 import { getPlayerData } from "../utils/api";
 import StatCard from "./StatCard";
 import SocialMediaHandles from "./SocialMediaHandles";
 
-const playerId = 1;
+const playerId = 2;
 
 /**
  * ProfileContainer component to display player profile and statistics.
@@ -25,7 +24,7 @@ const ProfileContainer = () => {
     number_of_games: "",
     highest_game_score: "",
     average_game_score: "",
-    total_loops: "",
+    number_of_loops: "",
     highest_loop_score: "",
     average_loop_score: "",
   });
@@ -35,17 +34,17 @@ const ProfileContainer = () => {
       .then((data) => {
         setPlayer({
           username: data.username,
-          location: `${data.city_name}, ${data.state_name}`,
-          team: data.team_name,
+          location: `${data.city}, ${data.country}`,
+          team: data.team,
           highestScore: data.highest_score,
-          homeArcade: data.home_arcade,
+          homeArcade: data.arcade,
           twitch: data.twitch || "",
           youtube: data.youtube || "",
           instagram: data.instagram || "",
           number_of_games: data.number_of_games || 0,
           highest_game_score: data.highest_game_score || 0,
           average_game_score: data.average_game_score || 0,
-          total_loops: data.total_loops || 0,
+          number_of_loops: data.number_of_loops || 0,
           highest_loop_score: data.highest_loop_score || 0,
           average_loop_score: data.average_loop_score || 0,
         });
@@ -56,8 +55,7 @@ const ProfileContainer = () => {
   }, []);
 
   const formatNumber = (number) => {
-    return number.toLocaleString();
-  };
+    return new Intl.NumberFormat().format(number);};
 
   return (
     <div className="profile-container">
@@ -66,10 +64,11 @@ const ProfileContainer = () => {
         <img src={wizardImage} alt="Profile" className="profile-picture" />
         </div>
         <div className="profile-details-container">
-        <span id="profile-name">
+          <div className="profile-name-section">
+          <span className="profile-name">
             <h3>{player.username}</h3>
-            <hr />
             </span>
+          </div>
           <div className="info-section">
               <div className='profile-detail' id="location">{player.location}</div>
               <div className='profile-detail' id="home-arcade">{player.homeArcade}</div>
@@ -94,7 +93,7 @@ const ProfileContainer = () => {
           <StatCard title="Number of Games" value={formatNumber(player.number_of_games)} />
           <StatCard title="Highest Total Score" value={formatNumber(player.highest_game_score)} />
           <StatCard title="Average Total Score" value={formatNumber(player.average_game_score)} />
-          <StatCard title="Loops Completed" value={formatNumber(player.total_loops)} />
+          <StatCard title="Loops Completed" value={formatNumber(player.number_of_loops)} />
           <StatCard title="Highest Loop Score" value={formatNumber(player.highest_loop_score)} />
           <StatCard title="Average Loop Score" value={formatNumber(player.average_loop_score)} />
         </div>

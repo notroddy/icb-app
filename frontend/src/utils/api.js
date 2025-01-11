@@ -30,6 +30,10 @@ export function resetLoopDisplay() {
     loopScoreInput.value = 0;
 }
 
+export function resetHoleDisplay() {
+    const holeNumberInput = document.getElementById('hole-number-input');
+    holeNumberInput.value = 1;
+}
 export function stopTimeDisplay() {
     clearInterval(timerInterval);
 }
@@ -96,6 +100,25 @@ export function getCSRFToken() {
     return cookieValue ? cookieValue.pop() : '';
 }
 
+function setCSRFToken() {
+    const csrfToken = getCSRFToken();
+    if (!csrfToken) {
+        fetch('/api/csrf/', {
+            method: 'GET',
+            credentials: 'include',
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Failed to fetch CSRF token');
+        }).then(data => {
+            document.cookie = `csrftoken=${data.csrfToken}; path=/`;
+        }).catch(error => {
+            console.error('Error setting CSRF token:', error);
+        });
+    }
+}
+
 export function getPlayerData(playerId) {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -127,19 +150,21 @@ export function getPlayerData(playerId) {
 }
 
 export function createNewGameSession() {
+    console.log('Creating new game session...');
+    setCSRFToken();
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/create/`;
 
     const payload = {
         game: 1,
-        player: 1,
-        arcade: 1
+        player: 2, // Ensure this player ID exists
+        arcade: 1  // Ensure this arcade ID exists
     };
 
     const csrfToken = getCSRFToken();
 
-    fetch(apiUrl, {
+    return fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -147,27 +172,38 @@ export function createNewGameSession() {
         },
         body: JSON.stringify(payload),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Game session created:', data);
 
         if (data.game_session_id) {
             currentGameSessionId = data.game_session_id;
+            console.log('Current game session ID:', currentGameSessionId);
+            return currentGameSessionId;
         } else {
             console.error('Game session creation response does not contain an ID.');
+            throw new Error('Game session creation response does not contain an ID.');
         }
     })
     .catch(error => {
         console.error('Error creating game session:', error);
+        throw error;
     });
 }
 
-export function updateGameSession(holeNumber, loopNumber, holeScore) {
-    if (!currentGameSessionId) {
-        console.error('Game session ID is not available. Cannot update hole scores.');
+export function updateGameSession(loopNumber, holeNumber, holeScore) {
+    if (holeScore === undefined) {
+        console.error('Hole score is undefined');
         return;
     }
 
+    console.log(`Updating game session ID: ${currentGameSessionId}, loop: ${loopNumber}, hole: ${holeNumber} with score: ${holeScore}`);
+    
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/${currentGameSessionId}/loop/${loopNumber}/hole/${holeNumber}/update-score/`;
@@ -186,11 +222,80 @@ export function updateGameSession(holeNumber, loopNumber, holeScore) {
         },
         body: JSON.stringify(payload),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Hole score updated:', data);
     })
     .catch(error => {
         console.error('Error updating hole score:', error);
+    });
+}
+
+export function endGameSession(gameSessionId) {
+    console.log(`Ending game session ID: ${gameSessionId}`);
+    
+    let baseUrl = window.location.origin;
+    baseUrl = baseUrl.replace('3000', '8000');
+    const apiUrl = `${baseUrl}/api/game-session/${gameSessionId}/end/`;
+
+    const csrfToken = getCSRFToken();
+
+    return fetch(apiUrl, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Game session ended:', data);
+        return data;
+    })
+    .catch(error => {
+        console.error('Error ending game session:', error);
+        throw error;
+    });
+}
+
+export function completeLoop(gameSessionId, loopNumber) {
+    console.log(`Completing loop number ${loopNumber} for game session ID: ${gameSessionId}`);
+    
+    let baseUrl = window.location.origin;
+    baseUrl = baseUrl.replace('3000', '8000');
+    const apiUrl = `${baseUrl}/api/game-session/${gameSessionId}/loop/${loopNumber}/complete/`;
+
+    const csrfToken = getCSRFToken();
+
+    return fetch(apiUrl, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Loop completed:', data);
+        return data;
+    })
+    .catch(error => {
+        console.error('Error completing loop:', error);
+        throw error;
     });
 }

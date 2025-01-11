@@ -1,21 +1,28 @@
-import React, { useState } from "react";
-import { updateGameSession, addHoleScore } from "../utils/api";
+import React, { useState, useEffect } from "react";
+import { updateGameSession, addHoleScore, completeLoop } from "../utils/api";
 import "./styles/ScoreContainer.css";
 
-const ScoreContainer = () => {
+const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   const [score, setScore] = useState(0);
   const [loopScore, setLoopScore] = useState(0);
   const [holeNumber, setHoleNumber] = useState(1);
   const [loopNumber, setLoopNumber] = useState(1);
   const [time, setTime] = useState("00:00:00");
 
+  useEffect(() => {
+    if (inputsDisabled) {
+      setHoleNumber(1);
+      setLoopNumber(1);
+    }
+  }, [inputsDisabled]);
+
   const handleHoleScoreInput = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && gameSessionId) {
       const holeScore = parseInt(e.target.value, 10);
       if (!isNaN(holeScore)) {
         const newLoopScore = loopScore + holeScore;
         setLoopScore(newLoopScore);
-        updateGameSession(holeNumber, loopNumber, holeScore);
+        updateGameSession(loopNumber, holeNumber, holeScore);
         addHoleScore(holeNumber, holeScore);
 
         if (holeNumber === 10) {
@@ -23,6 +30,7 @@ const ScoreContainer = () => {
           setLoopScore(0);
           setHoleNumber(1);
           setLoopNumber(loopNumber + 1);
+          completeLoop(gameSessionId, loopNumber);
         } else {
           setHoleNumber(holeNumber + 1);
         }
@@ -41,6 +49,7 @@ const ScoreContainer = () => {
             defaultValue="1"
             min="1"
             style={{ width: "50px" }}
+            disabled={inputsDisabled}
           />
         </div>
         <div className="arrow"></div>
@@ -75,6 +84,7 @@ const ScoreContainer = () => {
             defaultValue="0"
             style={{ width: "75px" }}
             onKeyPress={handleHoleScoreInput}
+            disabled={inputsDisabled}
           />
         </div>
       </div>

@@ -1,98 +1,54 @@
 from django.contrib import admin
-from backend.game.models import Game, GameSession, Loop
+from backend.game.models import Game, GameSession, Loop, Hole
 
-admin.site.register(Game)
-
-class LoopInline(admin.TabularInline):
-    """Inline admin for Loop model."""
-    model = Loop
+class HoleInline(admin.TabularInline):
+    model = Hole
     extra = 0
+    readonly_fields = ('hole_number', 'hole_score')
     can_delete = False
 
-    fields = (
-        "loop_number",
-        "total_score",
-        "hole_1_score",
-        "hole_2_score",
-        "hole_3_score",
-        "hole_4_score",
-        "hole_5_score",
-        "hole_6_score",
-        "hole_7_score",
-        "hole_8_score",
-        "hole_9_score",
-        "hole_10_score",
-    )
-    readonly_fields = fields
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj and obj.holes.count() >= 10:
+            return 0
+        return 1
+
+class LoopAdmin(admin.ModelAdmin):
+    list_display = ('game_session_number', 'player_name', 'loop_number', 'holes_completed', 'total_score', 'loop_time')
+    inlines = [HoleInline]
+    ordering = ('game_session__id', 'loop_number')
+    
+    def get_readonly_fields(self, request, obj=None):
+        return [field.name for field in self.model._meta.fields]
+    
+    def game_session_number(self, obj):
+        return obj.game_session.id
+
+    def player_name(self, obj):
+        return obj.game_session.player.username
 
     def total_score(self, obj):
-        """Format total score with commas."""
-        return "{:,}".format(obj.total_score)
+        return sum(hole.hole_score for hole in obj.holes.all())
 
-    total_score.short_description = "Total Score"
+    def holes_completed(self, obj):
+        return obj.holes.count()
+    
+    def loop_time(self, obj):
+        return obj.calculate_loop_speed_formatted()
+    
 
-    for i in range(1, 11):
-        exec(
-            f"""
-def hole_{i}_score(self, obj):
-    return self.get_hole_score(obj, {i})
-hole_{i}_score.short_description = "Hole {i}"
-"""
-        )
-
-    def get_hole_score(self, obj, hole_number):
-        """Helper method to retrieve the score for a specific hole."""
-        hole = obj.ordered_holes.filter(hole_number=hole_number).first()
-        return hole.hole_score if hole else None
+    game_session_number.short_description = 'Game Session Number'
+    player_name.short_description = 'Player'
 
 class GameSessionAdmin(admin.ModelAdmin):
-    """Admin for GameSession model."""
-    list_display = (
-        "player",
-        "game",
-        "display_total_score",
-        "number_of_loops",
-        "arcade",
-        "start_time",
-        "end_time",
-    )
-    readonly_fields = (
-        "game",
-        "player",
-        "arcade",
-        "total_score",
-        "number_of_loops",
-    )
+    list_display = ('game', 'player', 'arcade',  'start_time', 'end_time',  'number_of_loops', 'number_of_holes_completed','total_score')
+    ordering = ('start_time',)
 
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "game",
-                    "player",
-                    "arcade",
-                    "total_score",
-                    "number_of_loops",
-                )
-            },
-        ),
-    )
+    def get_readonly_fields(self, request, obj=None):
+        return [field.name for field in self.model._meta.fields]
 
-    inlines = [LoopInline]
-
-    def display_total_score(self, obj):
-        """Format total score with commas."""
-        if isinstance(obj.total_score, str):
-            return obj.total_score
-        else:
-            return "{:,}".format(obj.total_score)
-
-    def number_of_loops(self, obj):
-        """Format number of loops with commas."""
-        return "{:,}".format(obj.number_of_loops)
-
-    display_total_score.short_description = "Total Score"
-    number_of_loops.short_description = "Number of Loops"
-
+admin.site.register(Game)
+admin.site.register(Loop, LoopAdmin)
 admin.site.register(GameSession, GameSessionAdmin)
+# ...existing code...
+
+

@@ -8,6 +8,7 @@ import './styles/GameContainer.css';
  */
 const GameContainer = () => {
     const [countdown, setCountdown] = useState(null);
+    const [gameSessionId, setGameSessionId] = useState(null);
 
     useEffect(() => {
         if (countdown !== null && countdown > 0) {
@@ -23,8 +24,8 @@ const GameContainer = () => {
                     <div className="countdown">{countdown}</div>
                 </div>
             )}
-            <ScoreContainer />
-            <ButtonContainer setCountdown={setCountdown} />
+            <ScoreContainer inputsDisabled={countdown !== null && countdown > 0} gameSessionId={gameSessionId} />
+            <ButtonContainer setCountdown={setCountdown} setGameSessionId={setGameSessionId} gameSessionId={gameSessionId} />
         </div>
     );
 };
