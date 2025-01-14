@@ -1,0 +1,19 @@
+.master-container-wrapper {
+    position: relative;
+}
+
+.master-container {
+    display: flex;
+    flex-direction: row;
+    height: 55vh;
+}
+
+.container-left {
+    height: 100%;
+    width: 55%;
+}
+
+.container-right {
+    height: 100%;
+    width: 45%;
+}

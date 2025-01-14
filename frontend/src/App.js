@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import MasterContainer from './components/MasterContainer';
-import LoginPage from './components/LoginPage';
+import MasterContainer from './features/MasterContainer/MasterContainer';
+import LoginPage from './features/LoginPage/LoginPage';
 import './App.css';
 
 function App() {
