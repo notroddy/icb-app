@@ -1,14 +1,28 @@
 .master-container {
     display: flex;
     flex-direction: row;
-    height: 55vh;
+    height: 60vh;
     width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    gap: 20px;
+    padding: 20px;
 }
 
 .profile-container {
-    width: 55%;
+    width: 60%;
+    border-radius: 10px;
+    display: flex;
 }
 
 .game-container {
-    width: 45%;
+    width: 40%;
+    border-radius: 10px;
+    display: flex;
+}
+
+.color-scheme {
+  background: #003366; /* Updated background color to match Ice Cold Beer logo blue */
+  color: #fff; /* Updated text color */
+  /* Add other color-related styles as needed */
 }

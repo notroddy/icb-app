@@ -10,7 +10,7 @@ const MasterContainer = ({ userId }) => {
   console.log("User ID:", userId); // Log the user ID to the console
 
   return (
-      <div className={styles["master-container"]}>
+      <div className={`${styles["master-container"]} ${styles["color-scheme"]}`}>
         <div id="profile-container" className={styles["profile-container"]}>
           <ProfileContainer userId={userId} />
         </div>

@@ -20,6 +20,10 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
     if (e.key === "Enter" && gameSessionId) {
       const holeScore = parseInt(e.target.value, 10);
       if (!isNaN(holeScore)) {
+        if (holeScore === 0) {
+          e.target.value = "";
+          return;
+        }
         const newLoopScore = loopScore + holeScore;
         setLoopScore(newLoopScore);
         updateGameSession(loopNumber, holeNumber, holeScore);
@@ -63,7 +67,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           <div id="time-label" className={styles["display-label"]}>
             TIME
           </div>
-          <div className={styles["time-value"]}>{time}</div>
+          <div id="time-value" className={styles["time-value"]}>{time}</div>
         </div>
       </div>
 
@@ -75,6 +79,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           <input
             type="number"
             className={styles["number-input"]}
+            id="hole-number-input"
             value={holeNumber}
             min="1"
             max="10"
@@ -87,11 +92,13 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
             HOLE SCORE
           </div>
           <input
-            type="number"
+            type="text"
             className={styles["score-input"]}
+            id="hole-score-input"
             defaultValue="0"
             onKeyPress={handleHoleScoreInput}
             disabled={inputsDisabled}
+            pattern="\d*"
           />
         </div>
       </div>
@@ -103,6 +110,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           <input
             type="number"
             className={styles["number-input"]}
+            id="loop-number-input"
             value={loopNumber}
             min="1"
             max="10"
@@ -115,6 +123,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           </div>
           <input
             type="number"
+            id="loop-score-input"
             className={`${styles["score-input"]} ${styles["centered"]}`}
             value={loopScore}
             readOnly
@@ -125,7 +134,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
         <div id="score-label" className={styles["display-label"]}>
           SCORE
         </div>
-        <div className={styles["score-value"]}>{score}</div>
+        <div className={styles["score-value"]} id="score-value">{score}</div>
       </div>
     </div>
   );
