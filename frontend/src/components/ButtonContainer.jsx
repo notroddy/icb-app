@@ -19,6 +19,7 @@ const ButtonContainer = ({ setCountdown, setGameSessionId, gameSessionId }) => {
             resetTimeDisplay();
             resetScoreDisplay();
             resetLoopDisplay();
+            resetHoleDisplay();
             createNewGameSession().then((gameSessionId) => {
                 setGameSessionId(gameSessionId);
                 startStopwatch();

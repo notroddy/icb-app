@@ -23,11 +23,11 @@ button {
 }
 
 #start-game-btn {
-    background: linear-gradient(135deg, #28a745, #218838);
+    background: linear-gradient(135deg, #000000, #333333);
 }
 
 #start-game-btn:hover {
-    background-color: #218838;
+    background-color: #c82333;
 }
 
 #end-game-btn {

@@ -4,8 +4,8 @@
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
     text-align: center;
-    width: 90px; /* Set a fixed width */
-    height: 60px; /* Set a fixed height */
+    width: 80px; /* Set a fixed width */
+    height: 40px; /* Set a fixed height */
     display: flex;
     flex-direction: column;
     justify-content: center;

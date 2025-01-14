@@ -4,13 +4,17 @@ from backend.game.models import Game, GameSession, Loop, Hole
 class HoleInline(admin.TabularInline):
     model = Hole
     extra = 0
-    readonly_fields = ('hole_number', 'hole_score')
+    readonly_fields = ('hole_number', 'hole_score', 'hole_time')
+    fields = ('hole_number', 'hole_score', 'hole_time')
     can_delete = False
 
     def get_extra(self, request, obj=None, **kwargs):
         if obj and obj.holes.count() >= 10:
             return 0
         return 1
+    
+    def hole_time(self, obj):
+        return obj.calculate_hole_speed_formatted()
 
 class LoopAdmin(admin.ModelAdmin):
     list_display = ('game_session_number', 'player_name', 'loop_number', 'holes_completed', 'total_score', 'loop_time')
@@ -46,9 +50,17 @@ class GameSessionAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         return [field.name for field in self.model._meta.fields]
 
+class HoleAdmin(admin.ModelAdmin):
+    list_display = ('loop', 'hole_number', 'hole_score', 'start_time', 'end_time', 'hole_time')
+    readonly_fields = ('start_time', 'end_time', 'hole_time')
+
+    def hole_time(self, obj):
+        return obj.calculate_hole_speed_formatted()
+
 admin.site.register(Game)
 admin.site.register(Loop, LoopAdmin)
 admin.site.register(GameSession, GameSessionAdmin)
+admin.site.register(Hole, HoleAdmin)
 # ...existing code...
 
 

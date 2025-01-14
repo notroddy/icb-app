@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+.score-container {
+    position: relative;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.hole-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffea00;
+    font-family: 'Source Sans Pro', sans-serif;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+    align-self: flex-start;
+    /* Left align the title elements */
+    padding-right: 0px;
+    /* Add some padding for better alignment */
+}
+
+#time-display-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.display-container{
+    background: #000;
+    width: 100%;
+    height: 60px;
+    font-family: 'Digital-7', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#hole-number-input {
+    font-size: 2rem;
+    color: #ff4040;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+    background: none;
+    /* Remove background */
+    border: none;
+    /* Remove border */
+    width: 100%;
+    outline: none;
+    /* Remove outline */
+}
+
+#hole-score-input,
+#loop-score-input {
+    font-size: 2rem;
+    color: #ff4040;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+    background: none;
+    /* Remove background */
+    border: none;
+    /* Remove border */
+    outline: none;
+    /* Remove outline */
+    width: 100%;
+}
+
+#balls-display-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#balls-display {
+    background: #000;
+    color: #ff4040;
+    width: 40px;
+    height: 60px;
+    font-family: 'Digital-7', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.balls- {
+    font-size: 0.75rem;
+    color: #ffea00;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-bottom: 5px;
+}
+
+#balls-input {
+    font-size: 1.75rem;
+    color: #ff4040;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+    background: none;
+    /* Remove background */
+    border: none;
+    /* Remove border */
+    outline: none;
+    /* Remove outline */
+}
+
+#ball-on-bar {
+    background: #000;
+    color: #ffea00;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 0.75rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid black;
+}
+
+#time-display,
+#score-display,
+#score-to-beat-display,
+#loop-score-display {
+    background: #000;
+    width: 70%;
+    height: 60px;
+    font-family: 'Digital-7', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#hole-display-container {
+    display: flex;
+    align-items: center;
+    width: 75%;
+    gap: 10px;
+}
+
+
+#hole-number-display,
+#hole-score-display {
+    background: #000;
+    font-size: 0.75rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    height: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#hole-number-display {
+    color: #ffea00;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+    width: 25%;
+}
+
+#hole-score-display {
+    color: #ff4040;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+    width: 75%; 
+}
+
+
+
+.time-label,
+.score-label,
+.score-to-beat-label,
+.loop-score-label,
+.hole-score-label,
+.hole-number-label {
+    font-size: 0.75rem;
+    color: #ffea00;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    margin-bottom: 5px;
+    align-self: flex-start;
+    padding-left: 10px;
+}
+
+#time-value,
+#score-value,
+#score-to-beat-value {
+    font-size: 2rem;
+    color: #ff4040;
+    font-family: 'Digital-7', sans-serif;
+    text-align: center;
+}
+
+#score-to-beat-value {
+    color: #ffea00;
+}
+
+input[type="number"] {
+    font-family: 'Digital-7', sans-serif;
+    font-size: 2rem;
+    color: #ff4040;
+    text-align: center;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type="number"]::placeholder {
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1rem;
+    color: #ffea00;
+
+}
+
+/* Hide the up and down arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+input[type="number"]::placeholder {
+    text-align: center;
+    color: #ccc;
+}
+
+.collapse-arrow {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: #fff;
+}

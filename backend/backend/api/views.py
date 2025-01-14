@@ -4,12 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PlayerSerializer, GameSessionSerializer
 from backend.data.models import Player
-from backend.game.models import GameSession, Game, Arcade, Loop
+from backend.game.models import GameSession, Game, Arcade, Loop, Hole
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
+from django.utils import timezone
 import json
 import logging
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +24,26 @@ class PlayerDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Player.DoesNotExist:
             return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+def login_view(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        username = body.get('username')
+        password = body.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            token, _ = Token.objects.get_or_create(user=user)
+            return JsonResponse({'token': token.key, 'user_id': user.id}, status=200)
+        else:
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+def generate_token(user):
+    token, _ = Token.objects.get_or_create(user=user)
+    return token.key
+
 
 @csrf_exempt
 @require_POST
@@ -35,7 +58,13 @@ def create_game_session(request):
         player = Player.objects.get(id=player_id)
         arcade = Arcade.objects.get(id=arcade_id)
         game = Game.objects.get(id=game_id)
-        game_session = GameSession.objects.create(game=game, player=player, arcade=arcade)
+        start_time = timezone.now() + timezone.timedelta(seconds=3)
+        game_session = GameSession.objects.create(game=game, player=player, arcade=arcade, start_time=start_time)
+        
+        # Create the first loop and the first hole
+        first_loop = Loop.objects.create(game_session=game_session, loop_number=1, start_time=start_time)
+        Hole.objects.create(loop=first_loop, hole_number=1, hole_score=1, start_time=start_time)
+        
         logger.info(f'Game session created with ID: {game_session.id}')
         return JsonResponse({'game_session_id': game_session.id}, status=201)
     except Player.DoesNotExist:

@@ -66,6 +66,7 @@ class GameSession(models.Model):
         # If the hole already exists, we want to update the score
         if not created:
             hole.hole_score = hole_score
+            hole.end_time = timezone.now()
             hole.save()
         # Update the number of holes completed for the loop
         loop.number_of_holes_completed = loop.holes.count()
@@ -74,6 +75,10 @@ class GameSession(models.Model):
         if loop.number_of_holes_completed == 10:
             loop.end_time = timezone.now()
             loop.save()
+        else:
+            # Create the next hole
+            next_hole_number = hole_number + 1
+            loop.holes.get_or_create(hole_number=next_hole_number, defaults={'hole_score': 0})
         # Update the total score for the loop
         loop.total_score = loop.calculated_total_score
         loop.save()
@@ -127,7 +132,10 @@ class Loop(models.Model):
 
     def calculate_loop_speed(self):
         """Calculate the speed of the loop."""
-        return (self.end_time - self.start_time).total_seconds()
+        if self.end_time is None or self.start_time is None:
+            return None
+        else:
+            return (self.end_time - self.start_time).total_seconds()
     
     def calculate_loop_speed_formatted(self):
         """Calculate the speed of the loop and return it in minutes, seconds, and milliseconds."""
@@ -147,7 +155,9 @@ class Hole(models.Model):
     """Model representing a hole in a loop."""
     loop = models.ForeignKey(Loop, related_name='holes', on_delete=models.CASCADE)
     hole_number = models.IntegerField()
-    hole_score = models.IntegerField()
+    hole_score = models.IntegerField(default=0)
+    start_time = models.DateTimeField(auto_now_add=True)
+    end_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Hole"
@@ -155,3 +165,21 @@ class Hole(models.Model):
 
     def __str__(self):
         return f"Hole {self.hole_number} - Score: {self.hole_score}"
+    
+    def calculate_hole_speed(self):
+        """Calculate the speed of the hole."""
+        return (self.end_time - self.start_time).total_seconds()
+    
+    def calculate_hole_speed_formatted(self):
+        """Calculate the speed of the hole and return it in minutes, seconds, and milliseconds."""
+        if self.end_time is None:
+            return None
+        total_seconds = self.calculate_hole_speed()
+        minutes = int(total_seconds // 60)
+        seconds = int(total_seconds % 60)
+        milliseconds = int((total_seconds * 100) % 100)
+        return f"{minutes:02}:{seconds:02}.{milliseconds:02}"
+    
+    def save(self, *args, **kwargs):
+        # Save the instance first to ensure it has a primary key
+        super().save(*args, **kwargs)

@@ -41,80 +41,91 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
 
   return (
     <div className="score-container">
-      <div id="balls-display-container">
-        <div id="balls-display">
+      <div id="balls-display-container" className="display-container centered">
+        <div className="balls-display">
           <input
             type="number"
-            id="balls-input"
+            className="balls-input"
             defaultValue="1"
             min="1"
-            style={{ width: "50px" }}
             disabled={inputsDisabled}
           />
         </div>
         <div className="arrow"></div>
-        <div id="ball-on-bar">
+        <div className="ball-on-bar">
           <div>BALL</div>
           <div>ON</div>
           <div>BAR</div>
         </div>
       </div>
-      <div id="time-display">
-        <div className="time-label">TIME</div>
-        <div id="time-value">{time}</div>
+      <div id="time-display-container" className="display-container centered">
+        <div className="time-display">
+          <div id="time-label" className="display-label">
+            TIME
+          </div>
+          <div id="time-value">{time}</div>
+        </div>
       </div>
-      <div id="hole-display-container">
-        <div id="hole-number-display">
-          <div className="hole-label">HOLE</div>
+
+      <div id="hole-display-container" className="display-container centered">
+        <div id="hole-number-display" className="number-display">
+          <div className="display-label" id="hole-number-label">
+            HOLE
+          </div>
           <input
             type="number"
-            id="hole-number-input"
+            className="number-input"
             value={holeNumber}
             min="1"
             max="10"
-            style={{ width: "50px" }}
             readOnly
           />
         </div>
-        <div id="hole-score-display">
-          <div className="hole-label">HOLE SCORE</div>
+
+        <div id="hole-score-display" className="score-display">
+          <div className="display-label" id="hole-score-label">
+            HOLE SCORE
+          </div>
           <input
             type="number"
-            id="hole-score-input"
+            className="score-input"
             defaultValue="0"
-            style={{ width: "75px" }}
             onKeyPress={handleHoleScoreInput}
             disabled={inputsDisabled}
           />
         </div>
       </div>
-      <div id="hole-display-container">
-        <div id="hole-number-display">
-          <div className="hole-label">LOOP</div>
+      <div id="loop-display-container" className="display-container centered">
+        <div id="loop-number-display" className="number-display">
+          <div className="display-label" id="loop-number-label">
+            LOOP
+          </div>
           <input
             type="number"
-            id="loop-number-input"
+            className="number-input"
             value={loopNumber}
             min="1"
             max="10"
-            style={{ width: "50px" }}
             readOnly
           />
         </div>
-        <div id="hole-score-display">
-          <div className="hole-label">LOOP SCORE</div>
+        <div id="loop-score-display" className="score-display">
+          <div className="display-label" id="loop-score-label">
+            LOOP SCORE
+          </div>
           <input
             type="number"
-            id="loop-score-input"
+            className="score-input centered"
             value={loopScore}
-            style={{ width: "75px" }}
             readOnly
           />
         </div>
       </div>
-      <div id="score-display">
-        <div className="score-label">SCORE</div>
-        <div id="score-value">{score}</div>
+      <div className="score-display centered">
+        <div id="score-label" className="display-label">
+          SCORE
+        </div>
+        <div className="score-value">{score}</div>
       </div>
     </div>
   );

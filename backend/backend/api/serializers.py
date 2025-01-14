@@ -14,13 +14,16 @@ class PlayerSerializer(serializers.ModelSerializer):
     number_of_loops = serializers.SerializerMethodField()
     highest_loop_score = serializers.SerializerMethodField()
     average_loop_score = serializers.SerializerMethodField()
+    fastest_loop_time = serializers.SerializerMethodField()
+    average_loop_time = serializers.SerializerMethodField()
 
     class Meta:
         model = Player
         fields = [
             'username', 'email', 'bio', 'country', 'city', 'state', 'team', 'arcade', 
             'twitch', 'youtube', 'instagram', 'number_of_games', 'highest_game_score', 
-            'average_game_score', 'number_of_loops', 'highest_loop_score', 'average_loop_score'
+            'average_game_score', 'number_of_loops', 'highest_loop_score', 'average_loop_score', 'fastest_loop_time',
+            'average_loop_time'
         ]
 
     def get_country(self, obj):
@@ -55,6 +58,12 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     def get_average_loop_score(self, obj):
         return obj.get_average_loop_score()
+    
+    def get_fastest_loop_time(self, obj):
+        return obj.get_fastest_loop_time()
+    
+    def get_average_loop_time(self, obj):
+        return obj.get_average_loop_time()
 
 class GameSessionSerializer(serializers.ModelSerializer):
     player = serializers.CharField(source='player.username')

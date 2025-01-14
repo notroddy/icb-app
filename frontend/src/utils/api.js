@@ -11,10 +11,12 @@ const gameData = {
 
 export function updateScoreDisplay() {
     const scoreDisplay = document.getElementById('score-value');
-    if (score < 1000) {
-        scoreDisplay.textContent = score;
-    } else {
-        scoreDisplay.textContent = score.toLocaleString('en-US', { minimumIntegerDigits: 4, useGrouping: true });
+    if (scoreDisplay) {
+        if (score < 1000) {
+            scoreDisplay.textContent = score;
+        } else {
+            scoreDisplay.textContent = score.toLocaleString('en-US', { minimumIntegerDigits: 4, useGrouping: true });
+        }
     }
 }
 
@@ -26,14 +28,19 @@ export function resetScoreDisplay() {
 export function resetLoopDisplay() {
     const loopNumberInput = document.getElementById('loop-number-input');
     const loopScoreInput = document.getElementById('loop-score-input');
-    loopNumberInput.value = 1;
-    loopScoreInput.value = 0;
+    if (loopNumberInput && loopScoreInput) {
+        loopNumberInput.value = 1;
+        loopScoreInput.value = 0;
+    }
 }
 
 export function resetHoleDisplay() {
     const holeNumberInput = document.getElementById('hole-number-input');
-    holeNumberInput.value = 1;
+    if (holeNumberInput) {
+        holeNumberInput.value = 1;
+    }
 }
+
 export function stopTimeDisplay() {
     clearInterval(timerInterval);
 }
@@ -46,10 +53,12 @@ export function resetTimeDisplay() {
 
 export function updateTimeDisplay(hours, minutes, seconds) {
     const timeDisplay = document.getElementById('time-value');
-    hours = hours < 10 ? "0" + hours : hours;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    timeDisplay.textContent = hours + ":" + minutes + ":" + seconds;
+    if (timeDisplay) {
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        timeDisplay.textContent = hours + ":" + minutes + ":" + seconds;
+    }
 }
 
 export function startStopwatch() {
@@ -70,7 +79,9 @@ export function startStopwatch() {
 
 export function updateBallsValueDisplay(ballValue) {
     const ballsValueDisplay = document.getElementById('balls-input');
-    ballsValueDisplay.value = ballValue;
+    if (ballsValueDisplay) {
+        ballsValueDisplay.value = ballValue;
+    }
 }
 
 export function animateScoreIncrement(amount) {
@@ -140,7 +151,6 @@ export function getPlayerData(playerId) {
         return response.json();
     })
     .then(data => {
-        console.log('Fetched player data:', data);
         return data;
     })
     .catch(error => {
@@ -158,7 +168,7 @@ export function createNewGameSession() {
 
     const payload = {
         game: 1,
-        player: 2, // Ensure this player ID exists
+        player: 3, // Ensure this player ID exists
         arcade: 1  // Ensure this arcade ID exists
     };
 
@@ -298,4 +308,28 @@ export function completeLoop(gameSessionId, loopNumber) {
         console.error('Error completing loop:', error);
         throw error;
     });
+}
+
+export async function loginUser(username, password) {
+    try {
+        let baseUrl = window.location.origin;
+        baseUrl = baseUrl.replace('3000', '8000');
+        const apiUrl = `${baseUrl}/api/login/`;
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Invalid credentials');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
 }

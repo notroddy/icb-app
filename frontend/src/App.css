@@ -69,5 +69,25 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.logout-button {
+  width: 100px;
+  display: flex;
+  margin: 10px;
+  justify-content: center;
+}
+
+.logout-button button {
+  background-color: #f9570c;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+.content-container {
+  margin-top: 20px; /* Adjust margin to avoid overlap with the logout button */
+}
+
 
 

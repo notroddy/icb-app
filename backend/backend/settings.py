@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "backend.data",
     "backend.game",
     "rest_framework",
+    "rest_framework.authtoken",
     "django_extensions",
     # "django_db_utilities",
 ]

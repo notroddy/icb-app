@@ -62,41 +62,59 @@ class Player(User):
         """Get the number of games played by the player."""
         try:
             return self.gamesession_set.filter(end_time__isnull=False).count()
-        except ValueError:
+        except (ValueError, AttributeError):
             return 0
     
     def get_highest_game_score(self):
         """Get the highest total score of the player."""
         try:
-            return max([game_session.total_score for game_session in self.gamesession_set.all()])
-        except ValueError:
+            return max([game_session.total_score for game_session in self.gamesession_set.all() if game_session.total_score is not None])
+        except (ValueError, AttributeError):
             return 0
     
     def get_average_game_score(self):
         """Get the average total score of the player."""
-        if self.get_number_of_games() == 0:
+        try:
+            scores = [game_session.total_score for game_session in self.gamesession_set.all() if game_session.total_score is not None]
+            return sum(scores) / len(scores) if scores else 0
+        except (ValueError, ZeroDivisionError, AttributeError):
             return 0
-        else: 
-            return sum([game_session.total_score for game_session in self.gamesession_set.all()]) / self.get_number_of_games()
     
     def get_number_of_loops(self):
         """Get the number of loops completed by the player."""
-        number_of_loops = sum([game_session.loops.count() for game_session in self.gamesession_set.all()])
-        return number_of_loops
+        try:
+            return sum([game_session.loops.count() for game_session in self.gamesession_set.all()])
+        except (ValueError, AttributeError):
+            return 0
     
     def get_highest_loop_score(self):
         """Get the highest loop score of the player."""
         try:
-            return max([loop.total_score for game_session in self.gamesession_set.all() for loop in game_session.loops.all()])
-        except ValueError:
+            return max([loop.total_score for game_session in self.gamesession_set.all() for loop in game_session.loops.all() if loop.total_score is not None])
+        except (ValueError, AttributeError):
             return 0
     
     def get_average_loop_score(self):
         """Get the average loop score of the player."""
         try:
-            loops = [loop.total_score for game_session in self.gamesession_set.all() for loop in game_session.loops.all()]
+            loops = [loop.total_score for game_session in self.gamesession_set.all() for loop in game_session.loops.all() if loop.total_score is not None]
             return sum(loops) / len(loops) if loops else 0
-        except (ValueError, ZeroDivisionError):
+        except (ValueError, ZeroDivisionError, AttributeError):
+            return 0
+        
+    def get_fastest_loop_time(self):
+        """Get the fastest loop time of the player."""
+        try:
+            return min([loop.calculate_loop_speed() for game_session in self.gamesession_set.all() for loop in game_session.loops.all() if loop.calculate_loop_speed() is not None])
+        except (ValueError, AttributeError):
+            return 0
+        
+    def get_average_loop_time(self):
+        """Get the average loop time of the player."""
+        try:
+            loops = [loop.calculate_loop_speed() for game_session in self.gamesession_set.all() for loop in game_session.loops.all() if loop.calculate_loop_speed() is not None]
+            return sum(loops) / len(loops) if loops else 0
+        except (ValueError, ZeroDivisionError, AttributeError):
             return 0
 
 class Team(models.Model):
