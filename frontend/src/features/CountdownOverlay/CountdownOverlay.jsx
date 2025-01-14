@@ -1,9 +1,9 @@
 import React from 'react';
-import './CountdownOverlay.module.css';
+import styles from './CountdownOverlay.module.css';
 
 const CountdownOverlay = ({ countdown }) => (
-    <div className="countdown-overlay">
-        <div className="countdown">{countdown}</div>
+    <div className={styles["countdown-overlay"]}>
+        <div className={styles["countdown"]}>{countdown}</div>
     </div>
 );
 

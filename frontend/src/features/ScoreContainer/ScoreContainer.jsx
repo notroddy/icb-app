@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { updateGameSession, addHoleScore, completeLoop } from "../../utils/api";
-import "./ScoreContainer.module.css";
+import styles from "./ScoreContainer.module.css";
 
 const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   const [score, setScore] = useState(0);
@@ -40,41 +40,41 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   };
 
   return (
-    <div className="score-container">
-      <div id="balls-display-container" className="display-container centered">
-        <div className="balls-display">
+    <div className={styles["score-container"]}>
+      <div id="balls-display-container" className={`${styles["display-container"]} ${styles["centered"]}`}>
+        <div className={styles["balls-display"]}>
           <input
             type="number"
-            className="balls-input"
+            className={styles["balls-input"]}
             defaultValue="1"
             min="1"
             disabled={inputsDisabled}
           />
         </div>
-        <div className="arrow"></div>
-        <div className="ball-on-bar">
+        <div className={styles["arrow"]}></div>
+        <div className={styles["ball-on-bar"]}>
           <div>BALL</div>
           <div>ON</div>
           <div>BAR</div>
         </div>
       </div>
-      <div id="time-display-container" className="display-container centered">
-        <div className="time-display">
-          <div id="time-label" className="display-label">
+      <div id="time-display-container" className={`${styles["display-container"]} ${styles["centered"]}`}>
+        <div className={styles["time-display"]}>
+          <div id="time-label" className={styles["display-label"]}>
             TIME
           </div>
-          <div id="time-value">{time}</div>
+          <div className={styles["time-value"]}>{time}</div>
         </div>
       </div>
 
-      <div id="hole-display-container" className="display-container centered">
-        <div id="hole-number-display" className="number-display">
-          <div className="display-label" id="hole-number-label">
+      <div id="hole-display-container" className={`${styles["display-container"]} ${styles["centered"]}`}>
+        <div id="hole-number-display" className={styles["number-display"]}>
+          <div className={styles["display-label"]} id="hole-number-label">
             HOLE
           </div>
           <input
             type="number"
-            className="number-input"
+            className={styles["number-input"]}
             value={holeNumber}
             min="1"
             max="10"
@@ -82,50 +82,50 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           />
         </div>
 
-        <div id="hole-score-display" className="score-display">
-          <div className="display-label" id="hole-score-label">
+        <div id="hole-score-display" className={styles["score-display"]}>
+          <div className={styles["display-label"]} id="hole-score-label">
             HOLE SCORE
           </div>
           <input
             type="number"
-            className="score-input"
+            className={styles["score-input"]}
             defaultValue="0"
             onKeyPress={handleHoleScoreInput}
             disabled={inputsDisabled}
           />
         </div>
       </div>
-      <div id="loop-display-container" className="display-container centered">
-        <div id="loop-number-display" className="number-display">
-          <div className="display-label" id="loop-number-label">
+      <div id="loop-display-container" className={`${styles["display-container"]} ${styles["centered"]}`}>
+        <div id="loop-number-display" className={styles["number-display"]}>
+          <div className={styles["display-label"]} id="loop-number-label">
             LOOP
           </div>
           <input
             type="number"
-            className="number-input"
+            className={styles["number-input"]}
             value={loopNumber}
             min="1"
             max="10"
             readOnly
           />
         </div>
-        <div id="loop-score-display" className="score-display">
-          <div className="display-label" id="loop-score-label">
+        <div id="loop-score-display" className={styles["score-display"]}>
+          <div className={styles["display-label"]} id="loop-score-label">
             LOOP SCORE
           </div>
           <input
             type="number"
-            className="score-input centered"
+            className={`${styles["score-input"]} ${styles["centered"]}`}
             value={loopScore}
             readOnly
           />
         </div>
       </div>
-      <div className="score-display centered">
-        <div id="score-label" className="display-label">
+      <div className={`${styles["score-display"]} ${styles["centered"]}`}>
+        <div id="score-label" className={styles["display-label"]}>
           SCORE
         </div>
-        <div className="score-value">{score}</div>
+        <div className={styles["score-value"]}>{score}</div>
       </div>
     </div>
   );

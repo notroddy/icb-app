@@ -1,4 +1,4 @@
-import './StatCard.module.css';
+import styles from './StatCard.module.css';
 
 /**
  * StatCard component to display a statistic.
@@ -7,7 +7,7 @@ import './StatCard.module.css';
  * @param {string|number} props.value - Value of the statistic.
  */
 const StatCard = ({ title, value }) => (
-    <div className="stat-card">
+    <div className={styles["stat-card"]}>
         <p>{value}</p>
         <h4>{title}</h4>
     </div>

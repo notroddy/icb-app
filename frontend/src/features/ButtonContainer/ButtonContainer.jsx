@@ -9,7 +9,7 @@ import {
   resetHoleDisplay,
   endGameSession,
 } from "../../utils/api";
-import "./ButtonContainer.module.css";
+import styles from "./ButtonContainer.module.css";
 
 /**
  * ButtonContainer component that handles game start and end actions.
@@ -55,13 +55,21 @@ const ButtonContainer = ({ setCountdown, setGameSessionId, gameSessionId }) => {
   };
 
   return (
-    <div className="button-container">
+    <div className={styles["button-container"]}>
       {isGameStarted ? (
-        <button id="end-game-btn" onClick={handleEndGame}>
+        <button
+          id="end-game-btn"
+          className={styles["end-game-btn"]}
+          onClick={handleEndGame}
+        >
           End Game
         </button>
       ) : (
-        <button id="start-game-btn" onClick={handleStartGame}>
+        <button
+          id="start-game-btn"
+          className={styles["start-game-btn"]}
+          onClick={handleStartGame}
+        >
           Start Game
         </button>
       )}

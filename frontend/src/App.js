@@ -25,18 +25,11 @@ function App() {
 
     return (
         <div className="app-container">
-            {isLoggedIn && (
-                <div className="logout-button">
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
+            {isLoggedIn ? (
+                <MasterContainer userId={userId} />
+            ) : (
+                <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
             )}
-            <div className="content-container">
-                {isLoggedIn ? (
-                    <MasterContainer userId={userId} />
-                ) : (
-                    <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
-                )}
-            </div>
         </div>
     );
 }

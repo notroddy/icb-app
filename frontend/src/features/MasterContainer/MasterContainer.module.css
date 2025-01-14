@@ -1,19 +1,14 @@
-.master-container-wrapper {
-    position: relative;
-}
-
 .master-container {
     display: flex;
     flex-direction: row;
     height: 55vh;
+    width: 600px;
 }
 
-.container-left {
-    height: 100%;
+.profile-container {
     width: 55%;
 }
 
-.container-right {
-    height: 100%;
+.game-container {
     width: 45%;
 }

@@ -49,7 +49,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   margin: 0;
   font-family: 'Courier New', Courier, monospace;
   width: 100%;
@@ -85,9 +85,6 @@ body {
   
 }
 
-.content-container {
-  margin-top: 20px; /* Adjust margin to avoid overlap with the logout button */
-}
 
 
 

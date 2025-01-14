@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./LoginPage.module.css";
+import styles from "./LoginPage.module.css";
 import { loginUser } from '../../utils/api'; // Import the loginUser function
 
 function LoginPage({ setIsLoggedIn, setUserId }) {
@@ -22,10 +22,10 @@ function LoginPage({ setIsLoggedIn, setUserId }) {
     };
 
     return (
-        <div className="login-container">
+        <div className={styles["login-container"]}>
             <form onSubmit={handleLogin}>
                 <h2>Login</h2>
-                {error && <p className="error">{error}</p>}
+                {error && <p className={styles["error"]}>{error}</p>}
                 <input
                     type="text"
                     placeholder="Username"

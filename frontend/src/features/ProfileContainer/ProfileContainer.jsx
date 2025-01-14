@@ -3,7 +3,7 @@ import StatCard from "../StatCard/StatCard";
 import SocialMediaHandles from "../SocialMediaHandles/SocialMediaHandles";
 import wizardImage from "../../assets/images/wizard.png";
 import { getPlayerData } from "../../utils/api";
-import "./ProfileContainer.module.css";
+import styles from "./ProfileContainer.module.css";
 
 
 /**
@@ -68,25 +68,25 @@ const ProfileContainer = ({ userId }) => {
   };
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <div className="profile-picture-container">
-          <img src={wizardImage} alt="Profile" className="profile-picture" />
+    <div className={styles["profile-container"]}>
+      <div className={styles["profile-header"]}>
+        <div className={styles["profile-picture-container"]}>
+          <img src={wizardImage} alt="Profile" className={styles["profile-picture"]} />
         </div>
-        <div className="profile-details-container">
-          <div className="profile-name-section">
-            <span className="profile-name">
+        <div className={styles["profile-details-container"]}>
+          <div className={styles["profile-name-section"]}>
+            <span className={styles["profile-name"]}>
               <h3>{player.username}</h3>
             </span>
           </div>
-          <div className="info-section">
-            <div className="profile-detail" id="location">
+          <div className={styles["info-section"]}>
+            <div className={styles["profile-detail"]} id="location">
               {player.location}
             </div>
-            <div className="profile-detail" id="home-arcade">
+            <div className={styles["profile-detail"]} id="home-arcade">
               {player.homeArcade}
             </div>
-            <div className="social-media-handles">
+            <div className={styles["social-media-handles"]}>
               {player.twitch && (
                 <SocialMediaHandles data={{ twitch: player.twitch }} />
               )}
@@ -101,9 +101,9 @@ const ProfileContainer = ({ userId }) => {
         </div>
       </div>
 
-      <div className="stats-section">
+      <div className={styles["stats-section"]}>
         <h3>Stats</h3>
-        <div className="stats-grid">
+        <div className={styles["stats-grid"]}>
           <StatCard
             title="Number of Games"
             value={formatNumber(player.number_of_games)}

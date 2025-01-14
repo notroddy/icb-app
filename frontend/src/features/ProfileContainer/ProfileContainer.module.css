@@ -1,7 +1,7 @@
 .profile-container {
     position: relative;
-    width: 300px;
     height: 100%;
+    width: 100%;
     gap: 10px;
     display: flex;
     flex-direction: column;
@@ -42,7 +42,7 @@
 
 .profile-picture-container {
     height: 80%;
-    width: 100%;
+    width: 50%;
     display: flex;
     align-items: flex-end;
     justify-content: center;
