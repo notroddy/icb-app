@@ -1,0 +1,36 @@
+.social-media-handles {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.social-media-handles a {
+    font-size: 24px;
+    transition: color 0.3s;
+    color: inherit;
+}
+
+.social-media-handles a[href*="twitch.tv"] {
+    color: #9146FF;
+}
+
+.social-media-handles a[href*="instagram.com"] {
+    color: #E1306C;
+}
+
+.social-media-handles a[href*="youtube.com"] {
+    color: #FF0000;
+}
+
+.social-media-handles a:hover {
+    color: #fff;
+}
+
+.social-media-handle {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    font-size: 12px;
+}

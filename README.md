@@ -19,36 +19,27 @@ The Ice Cold Beer Real-Time Score Tracker is a web application designed to help 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/icb-app.git
+    git clone https://github.com/not_roddy/icb-app.git
     cd icb-app/backend
     ```
 
-2. Create a virtual environment and activate it:
-    ```sh
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
+2. **Install Poetry**:
+   Follow the instructions at [Poetry's official website](https://python-poetry.org/docs/#installation) to install Poetry.
 
-3. Install the dependencies:
-    ```sh
-    pip install -r requirements.txt
-    ```
+3. **Install dependencies**:
+   ```sh
+   poetry install
+   ```
 
-4. Apply the migrations:
-    ```sh
-    python manage.py makemigrations
-    python manage.py migrate
-    ```
+4. **Run migrations**:
+   ```sh
+   poetry run python manage.py migrate
+   ```
 
-5. Create a superuser:
-    ```sh
-    python manage.py createsuperuser
-    ```
-
-6. Start the development server:
-    ```sh
-    python manage.py runserver
-    ```
+5. **Start the server**:
+   ```sh
+   poetry run python manage.py runserver
+   ```
 
 ### Frontend
 
@@ -77,52 +68,48 @@ The Ice Cold Beer Real-Time Score Tracker is a web application designed to help 
 
 ### Endpoints
 
-#### Player Endpoints
+#### Authentication
 
-- **Get Player Data**
-    - **URL:** `/api/player/<int:player_id>/`
-    - **Method:** `GET`
-    - **Description:** Retrieve player data by player ID.
+- **Login**: `POST /login/`
+  - Request body: `{ "username": "your_username", "password": "your_password" }`
+  - Response: `{ "token": "your_token", "user_id": user_id }`
 
-#### Game Session Endpoints
+#### Players
 
-- **Create Game Session**
-    - **URL:** `/api/game-session/create/`
-    - **Method:** `POST`
-    - **Description:** Create a new game session.
-    - **Payload:**
-        ```json
-        {
-            "game": 1,
-            "player": 2,
-            "arcade": 1
-        }
-        ```
+- **Get Player Details**: `GET /player/<int:player_id>/`
+  - Response: Player details including username, email, bio, and game statistics.
 
-- **Update Game Session Score**
-    - **URL:** `/api/game-session/<int:game_session_id>/loop/<int:loop_number>/hole/<int:hole_number>/update-score/`
-    - **Method:** `PATCH`
-    - **Description:** Update the score for a specific hole in a loop.
-    - **Payload:**
-        ```json
-        {
-            "hole_score": 100
-        }
-        ```
+- **List Players**: `GET /players/`
+  - Response: List of all players.
 
-- **End Game Session**
-    - **URL:** `/api/game-session/<int:game_session_id>/end/`
-    - **Method:** `PATCH`
-    - **Description:** Mark a game session as ended.
+#### Game Sessions
 
-- **Complete Loop**
-    - **URL:** `/api/game-session/<int:game_session_id>/loop/<int:loop_number>/complete/`
-    - **Method:** `PATCH`
-    - **Description:** Mark a loop as completed.
+- **Create Game Session**: `POST /game-session/create/`
+  - Request body: `{ "game": game_id, "player": player_id, "arcade": arcade_id }`
+  - Response: `{ "game_session_id": game_session_id }`
 
-## Contributing
+- **Update Game Session Score**: `PATCH /game-session/<int:game_session_id>/loop/<int:loop_number>/hole/<int:hole_number>/update-score/`
+  - Request body: `{ "hole_score": score }`
+  - Response: `{ "message": "Score updated successfully" }`
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+- **End Game Session**: `PATCH /game-session/<int:game_session_id>/end/`
+  - Response: `{ "message": "Game session ended successfully" }`
+
+- **Complete Loop**: `PATCH /game-session/<int:game_session_id>/loop/<int:loop_number>/complete/`
+  - Response: `{ "status": "Loop completed", "loop_id": loop_id }`
+
+#### Games
+
+- **Get Game Details**: `GET /game/<int:game_id>/`
+  - Response: Game details.
+
+- **List Games**: `GET /games/`
+  - Response: List of all games.
+
+#### Arcades
+
+- **List Arcades**: `GET /arcades/`
+  - Response: List of all arcades.
 
 ## License
 

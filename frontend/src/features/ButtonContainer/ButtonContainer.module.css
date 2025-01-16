@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+.button-container {
+    display: flex;
+    align-items: center;
+    width: 65%;
+    font-family: 'Source Sans Pro', sans-serif;
+    justify-content: space-between;
+}
+.start-game-btn {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.start-game-btn:hover {
+    background-color: #c82333;
+}
+
+.end-game-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.end-game-btn:hover {
+    background-color: #c82333;
+}
+
+.start-game-btn button:hover{
+    background-color: #c82333;
+
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1rem;
+}
+
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
