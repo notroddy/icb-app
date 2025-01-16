@@ -8,6 +8,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     state = serializers.SerializerMethodField()
     team = serializers.SerializerMethodField()
     arcade = serializers.SerializerMethodField()
+    arcade_id = serializers.SerializerMethodField()
     number_of_games = serializers.SerializerMethodField()
     highest_game_score = serializers.SerializerMethodField()
     average_game_score = serializers.SerializerMethodField()
@@ -20,7 +21,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = [
-            'username', 'email', 'bio', 'country', 'city', 'state', 'team', 'arcade', 
+            'id','username', 'email', 'bio', 'country', 'city', 'state', 'team', 'arcade', 'arcade_id',
             'twitch', 'youtube', 'instagram', 'number_of_games', 'highest_game_score', 
             'average_game_score', 'number_of_loops', 'highest_loop_score', 'average_loop_score', 'fastest_loop_time',
             'average_loop_time'
@@ -40,6 +41,9 @@ class PlayerSerializer(serializers.ModelSerializer):
     
     def get_arcade(self, obj):
         return obj.arcade.name if obj.arcade else None
+    
+    def get_arcade_id(self, obj):
+        return obj.arcade.id if obj.arcade else None
 
     def get_number_of_games(self, obj):
         return obj.get_number_of_games()
@@ -77,5 +81,12 @@ class GameSessionSerializer(serializers.ModelSerializer):
         model = GameSession
         fields = ['id', 'player', 'arcade', 'game', 'total_score', 'number_of_loops', 'number_of_holes_completed', 'created_at', 'updated_at']
 
+class GameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = '__all__'
 
-
+class ArcadeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Arcade
+        fields = '__all__'

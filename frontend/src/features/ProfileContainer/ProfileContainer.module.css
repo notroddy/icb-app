@@ -1,31 +1,21 @@
 .profile-container {
     position: relative;
-    height: 100%;
-    width: 100%;
-    gap: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    color:  #f9570c;
-    background: linear-gradient(135deg, #2c2c2c, #1a1a1a); /* Dark gradient for the whole container */
     font-family: 'Source Sans Pro', sans-serif;
     border-radius: 10px;
-
 }
 
 .profile-header {
     position: relative;
     display: flex;
     width: 100%;
-    height: 30%;
     align-items: flex-end;
     border-top-right-radius: 10px;
-
     border-top-left-radius: 10px;
     background: rgba(0, 0, 0, 0.95);
     z-index: 1;
-    
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color:  #f9570c;
 }
@@ -45,7 +35,6 @@
 }
 
 .profile-picture-container {
-    height: 80%;
     width: 50%;
     display: flex;
     align-items: flex-end;
@@ -60,7 +49,6 @@
 }
 
 .profile-details-container {
-    width: 55%;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -95,15 +83,26 @@
 .info-section h3 {
     font-size: 16px;
     color: #fff;
+    
 }
 
 .stats-section {
-    margin-bottom: 10px;
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    border-radius: 10px;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Added transparent overlay */
+    width: 100%;
+}
+
+.stats-section h3 {
+    font-size: 20px;
+    color: #fff;
+    align-self: flex-start; /* Align title to the left */
+    margin-left: 40px; /* Add some left margin for better alignment */
+    margin-bottom: 1px; /* Reduce space below the title */
 }
 
 .stats-grid {
@@ -111,13 +110,8 @@
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
-        border-radius: 10px;
-
-}
-
-.stats-section h3 {
-    font-size: 20px;
-    color: #fff;
+    padding: 20px;
+    justify-items: center; /* Center the stats grid */
 }
 
 .socials-section {

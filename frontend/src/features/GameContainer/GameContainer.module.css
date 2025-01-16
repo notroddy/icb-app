@@ -2,13 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: #ff0;
-    /* background: linear-gradient(135deg,#f9570c, #ac7309); Phoenix Suns orange gradient */
-    background: none;
     position: relative;
-    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -16,4 +10,9 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.5); /* Added transparent overlay */
+    border-radius: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    width: 100%;
+
 }

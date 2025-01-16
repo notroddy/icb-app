@@ -89,10 +89,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
     height: auto; 
     width: 100%;
-
+    text-align: center; /* Ensure text is centered */
 }
 
 .number-input{
@@ -112,17 +111,7 @@
     
 }
 
-.number-input{
-    color: #ff4040;
-    font-size: 1.75em;
-    
-}
 
-.score-input{
-    color: #ff4040;
-    font-size: 1.75rem;
-
-}
 
 .number-display {
     width: 25%;

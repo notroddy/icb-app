@@ -9,4 +9,8 @@ urlpatterns = [
     path('game-session/<int:game_session_id>/loop/<int:loop_number>/hole/<int:hole_number>/update-score/', views.update_game_session_score, name='update_game_session_score'),
     path('game-session/<int:game_session_id>/end/', views.end_game_session, name='end_game_session'),
     path('game-session/<int:game_session_id>/loop/<int:loop_number>/complete/', views.complete_loop, name='complete_loop'),
+    path('games/', views.GameListView.as_view(), name='get_games'),
+    path('players/', views.PlayerListView.as_view(), name='get_players'),
+    path('arcades/', views.ArcadeListView.as_view(), name='get_arcades'),
+    path('game/<int:game_id>/', views.GameDetailView.as_view(), name='get_game'),
 ]

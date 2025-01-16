@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { getPlayerData, getGameData } from "../../utils/api";
 import StatCard from "../StatCard/StatCard";
 import SocialMediaHandles from "../SocialMediaHandles/SocialMediaHandles";
 import wizardImage from "../../assets/images/wizard.png";
-import { getPlayerData } from "../../utils/api";
 import styles from "./ProfileContainer.module.css";
 
 
 /**
  * ProfileContainer component to display player profile and statistics.
  */
-const ProfileContainer = ({ userId }) => {
+const ProfileContainer = ({ userId, gameId }) => {
   const [player, setPlayer] = useState({
     username: "",
     location: "",
@@ -28,6 +28,7 @@ const ProfileContainer = ({ userId }) => {
     fastest_loop_time: "",
     average_loop_time: "",
   });
+  const [gameName, setGameName] = useState("");
 
   useEffect(() => {
     if (userId) {
@@ -59,6 +60,18 @@ const ProfileContainer = ({ userId }) => {
     }
   }, [userId]);
 
+  useEffect(() => {
+    if (gameId) {
+      getGameData(gameId)
+        .then((data) => {
+          setGameName(data.name);
+        })
+        .catch((error) => {
+          console.error("Error fetching game data:", error);
+        });
+    }
+  }, [gameId]);
+
   const formatNumber = (number) => {
     return new Intl.NumberFormat().format(number);
   };
@@ -85,6 +98,9 @@ const ProfileContainer = ({ userId }) => {
             </div>
             <div className={styles["profile-detail"]} id="home-arcade">
               {player.homeArcade}
+            </div>
+            <div className={styles["profile-detail"]} id="game-name">
+              Game: {gameName}
             </div>
             <div className={styles["social-media-handles"]}>
               {player.twitch && (

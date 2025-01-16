@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PlayerSerializer, GameSessionSerializer
+from .serializers import ArcadeSerializer, PlayerSerializer, GameSessionSerializer, GameSerializer
 from backend.data.models import Player
 from backend.game.models import GameSession, Game, Arcade, Loop, Hole
 from django.shortcuts import get_object_or_404
@@ -24,6 +24,33 @@ class PlayerDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Player.DoesNotExist:
             return Response({'error': 'Player not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class GameListView(APIView):
+    def get(self, request):
+        games = Game.objects.all()
+        serializer = GameSerializer(games, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PlayerListView(APIView):
+    def get(self, request):
+        players = Player.objects.all()
+        serializer = PlayerSerializer(players, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class ArcadeListView(APIView):
+    def get(self, request):
+        players = Arcade.objects.all()
+        serializer = ArcadeSerializer(players, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class GameDetailView(APIView):
+    def get(self, request, game_id):
+        try:
+            game = Game.objects.get(pk=game_id)
+            serializer = GameSerializer(game)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Game.DoesNotExist:
+            return Response({'error': 'Game not found'}, status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
 def login_view(request):

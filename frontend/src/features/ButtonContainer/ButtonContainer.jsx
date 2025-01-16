@@ -17,8 +17,11 @@ import styles from "./ButtonContainer.module.css";
  * @param {Function} props.setCountdown - Function to set the countdown timer.
  * @param {Function} props.setGameSessionId - Function to set the game session ID.
  * @param {string} props.gameSessionId - The current game session ID.
+ * @param {string} props.userId - The selected user ID.
+ * @param {string} props.gameId - The selected game ID.
+ * @param {string} props.arcadeId - The selected arcade ID.
  */
-const ButtonContainer = ({ setCountdown, setGameSessionId, gameSessionId }) => {
+const ButtonContainer = ({ setCountdown, setGameSessionId, gameSessionId, userId, gameId, arcadeId }) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const handleStartGame = () => {
@@ -29,7 +32,7 @@ const ButtonContainer = ({ setCountdown, setGameSessionId, gameSessionId }) => {
       resetScoreDisplay();
       resetLoopDisplay();
       resetHoleDisplay();
-      createNewGameSession().then((gameSessionId) => {
+      createNewGameSession(userId,gameId,arcadeId).then((gameSessionId) => {
         setGameSessionId(gameSessionId);
         startStopwatch();
         setIsGameStarted(true);

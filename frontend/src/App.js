@@ -1,37 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import MasterContainer from './features/MasterContainer/MasterContainer';
-import LoginPage from './features/LoginPage/LoginPage';
 import './App.css';
+import SelectionContainer from './features/SelectionContainer/SelectionContainer';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userId, setUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(localStorage.getItem("selectedUser"));
+  const [selectedGame, setSelectedGame] = useState(localStorage.getItem("selectedGame"));
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const storedUserId = localStorage.getItem('user_id');
-        if (token && storedUserId) {
-            setIsLoggedIn(true);
-            setUserId(storedUserId);
-        }
-    }, []);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("selectedUser");
+    const storedGame = localStorage.getItem("selectedGame");
+    if (storedUser) setSelectedUser(storedUser);
+    if (storedGame) setSelectedGame(storedGame);
+  }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_id');
-        setIsLoggedIn(false);
-        setUserId(null);
-    };
-
-    return (
-        <div className="app-container">
-            {isLoggedIn ? (
-                <MasterContainer userId={userId} />
-            ) : (
-                <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
-            )}
-        </div>
-    );
+  return (
+    <div className="app-container">
+      {selectedUser && selectedGame ? (
+        <MasterContainer userId={selectedUser} gameId={selectedGame} />
+      ) : (
+        <SelectionContainer />
+      )}
+    </div>
+  );
 }
 
 export default App;

@@ -4,7 +4,7 @@ import styles from "./ScoreContainer.module.css";
 
 const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   const [score, setScore] = useState(0);
-  const [loopScore, setLoopScore] = useState(0);
+  const [loopScore, setLoopScore] = useState("0"); // Changed to string
   const [holeNumber, setHoleNumber] = useState(1);
   const [loopNumber, setLoopNumber] = useState(1);
   const [time, setTime] = useState("00:00:00");
@@ -24,14 +24,14 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
           e.target.value = "";
           return;
         }
-        const newLoopScore = loopScore + holeScore;
-        setLoopScore(newLoopScore);
+        const newLoopScore = parseInt(loopScore, 10) + holeScore; // Convert loopScore to int
+        setLoopScore(newLoopScore.toString()); // Convert back to string
         updateGameSession(loopNumber, holeNumber, holeScore);
         addHoleScore(holeNumber, holeScore);
 
         if (holeNumber === 10) {
           setScore(score + newLoopScore);
-          setLoopScore(0);
+          setLoopScore("0");
           setHoleNumber(1);
           setLoopNumber(loopNumber + 1);
           completeLoop(gameSessionId, loopNumber);
@@ -122,7 +122,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
             LOOP SCORE
           </div>
           <input
-            type="number"
+            type="text"
             id="loop-score-input"
             className={`${styles["score-input"]} ${styles["centered"]}`}
             value={loopScore}
