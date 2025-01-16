@@ -3,4 +3,5 @@
 **/__pycache__/
 **/.cache/
 frontend/node_modules/.cache/
+frontend/node_modules/.cache/default-development/
 
