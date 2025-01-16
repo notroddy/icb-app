@@ -1,0 +1,2 @@
+include django_db_utilities/*.py
+recursive-include django_db_utilities/management/commands *.py
