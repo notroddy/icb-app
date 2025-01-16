@@ -3,6 +3,9 @@ import { fetchPlayers, fetchGames, getPlayerData, getArcadeIdForPlayer } from ".
 import MasterContainer from "../MasterContainer/MasterContainer";
 import styles from "./SelectionContainer.module.css";
 
+/**
+ * SelectionContainer component to select user and game.
+ */
 const SelectionContainer = () => {
   const [users, setUsers] = useState([]);
   const [games, setGames] = useState([]);
@@ -11,17 +14,17 @@ const SelectionContainer = () => {
   const [arcadeId, setArcadeId] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  // Fetch users and games on component mount
   useEffect(() => {
     fetchPlayers().then((data) => {
-      console.log("Users response:", data);
       setUsers(data);
     });
     fetchGames().then((data) => {
-      console.log("Games response:", data);
       setGames(data);
     });
   }, []);
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     if (selectedUser && selectedGame) {
@@ -29,7 +32,6 @@ const SelectionContainer = () => {
         localStorage.setItem("selectedUser", selectedUser);
         localStorage.setItem("selectedGame", selectedGame);
         getArcadeIdForPlayer(selectedUser).then((arcadeId) => {
-          console.log("Arcade ID:", arcadeId);
           localStorage.setItem("arcadeId", arcadeId);
           setSubmitted(true);
         });
@@ -37,6 +39,7 @@ const SelectionContainer = () => {
     }
   };
 
+  // Render MasterContainer if form is submitted
   if (submitted) {
     return <MasterContainer userId={selectedUser} gameId={selectedGame} arcadeId={arcadeId}/>;
   }

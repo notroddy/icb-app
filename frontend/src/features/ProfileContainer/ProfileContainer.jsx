@@ -8,6 +8,9 @@ import styles from "./ProfileContainer.module.css";
 
 /**
  * ProfileContainer component to display player profile and statistics.
+ * 
+ * @param {string} userId - The ID of the user whose profile is being displayed.
+ * @param {string} gameId - The ID of the game whose data is being displayed.
  */
 const ProfileContainer = ({ userId, gameId }) => {
   const [player, setPlayer] = useState({
@@ -34,7 +37,6 @@ const ProfileContainer = ({ userId, gameId }) => {
     if (userId) {
       getPlayerData(userId)
         .then((data) => {
-          console.log("Player data:", data);
           setPlayer({
             username: data.username,
             location: `${data.city}, ${data.country}`,

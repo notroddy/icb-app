@@ -1,5 +1,7 @@
 import axios from 'axios';
+import logger from './logger';
 
+// Variables to store game state
 let score = 0;
 let timerInterval;
 let elapsedTime = 0;
@@ -11,6 +13,7 @@ const gameData = {
     loopScores: []
 };
 
+// Function to update the score display
 export function updateScoreDisplay() {
     const scoreDisplay = document.getElementById('score-value');
     if (scoreDisplay) {
@@ -22,11 +25,13 @@ export function updateScoreDisplay() {
     }
 }
 
+// Function to reset the score display
 export function resetScoreDisplay() {
     score = 0;
     updateScoreDisplay();
 }
 
+// Function to reset the loop display
 export function resetLoopDisplay() {
     const loopNumberInput = document.getElementById('loop-number-input');
     const loopScoreInput = document.getElementById('loop-score-input');
@@ -36,6 +41,7 @@ export function resetLoopDisplay() {
     }
 }
 
+// Function to reset the hole display
 export function resetHoleDisplay() {
     const holeNumberInput = document.getElementById('hole-number-input');
     if (holeNumberInput) {
@@ -43,16 +49,19 @@ export function resetHoleDisplay() {
     }
 }
 
+// Function to stop the time display
 export function stopTimeDisplay() {
     clearInterval(timerInterval);
 }
 
+// Function to reset the time display
 export function resetTimeDisplay() {
     clearInterval(timerInterval);
     elapsedTime = 0;
     updateTimeDisplay(0, 0, 0);
 }
 
+// Function to update the time display
 export function updateTimeDisplay(hours, minutes, seconds) {
     const timeDisplay = document.getElementById('time-value');
     if (timeDisplay) {
@@ -63,6 +72,7 @@ export function updateTimeDisplay(hours, minutes, seconds) {
     }
 }
 
+// Function to start the stopwatch
 export function startStopwatch() {
     clearInterval(timerInterval);
     startTime = Date.now() - elapsedTime;
@@ -79,6 +89,7 @@ export function startStopwatch() {
     timerInterval = setInterval(updateTimer, 1000);
 }
 
+// Function to update the balls value display
 export function updateBallsValueDisplay(ballValue) {
     const ballsValueDisplay = document.getElementById('balls-input');
     if (ballsValueDisplay) {
@@ -86,6 +97,7 @@ export function updateBallsValueDisplay(ballValue) {
     }
 }
 
+// Function to animate the score increment
 export function animateScoreIncrement(amount) {
     let targetScore = score + amount;
     let incrementSpeed = 0.1;
@@ -104,15 +116,18 @@ export function animateScoreIncrement(amount) {
     increment();
 }
 
+// Function to add a hole score
 export function addHoleScore(holeNumber, holeScore) {
     gameData.holes[holeNumber] = holeScore;
 }
 
+// Function to get the CSRF token
 export function getCSRFToken() {
     const cookieValue = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
     return cookieValue ? cookieValue.pop() : '';
 }
 
+// Function to set the CSRF token
 function setCSRFToken() {
     const csrfToken = getCSRFToken();
     if (!csrfToken) {
@@ -121,11 +136,12 @@ function setCSRFToken() {
                 document.cookie = `csrftoken=${response.data.csrfToken}; path=/`;
             })
             .catch(error => {
-                console.error('Error setting CSRF token:', error);
+                logger.error('Error setting CSRF token:', error);
             });
     }
 }
 
+// Function to get player data
 export function getPlayerData(playerId) {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -141,20 +157,17 @@ export function getPlayerData(playerId) {
     })
     .then(response => response.data)
     .catch(error => {
-        console.error('Error fetching player data:', error);
+        logger.error('Error fetching player data:', error);
         throw error;
     });
 }
 
-export function createNewGameSession( playerId, gameId, arcadeId ) {
-    console.log('Creating new game session...');
+// Function to create a new game session
+export function createNewGameSession(playerId, gameId, arcadeId) {
     setCSRFToken();
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/create/`;
-    console.log('playerId:', playerId);
-    console.log('gameId:', gameId);
-    console.log('arcadeId:', arcadeId);
 
     const payload = {
         game: gameId, 
@@ -171,31 +184,26 @@ export function createNewGameSession( playerId, gameId, arcadeId ) {
         },
     })
     .then(response => {
-        console.log('Game session created:', response.data);
-
         if (response.data.game_session_id) {
             currentGameSessionId = response.data.game_session_id;
-            console.log('Current game session ID:', currentGameSessionId);
             return currentGameSessionId;
         } else {
-            console.error('Game session creation response does not contain an ID.');
             throw new Error('Game session creation response does not contain an ID.');
         }
     })
     .catch(error => {
-        console.error('Error creating game session:', error);
+        logger.error('Error creating game session:', error);
         throw error;
     });
 }
 
+// Function to update the game session
 export function updateGameSession(loopNumber, holeNumber, holeScore) {
     if (holeScore === undefined) {
-        console.error('Hole score is undefined');
+        logger.error('Hole score is undefined');
         return;
     }
 
-    console.log(`Updating game session ID: ${currentGameSessionId}, loop: ${loopNumber}, hole: ${holeNumber} with score: ${holeScore}`);
-    
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/${currentGameSessionId}/loop/${loopNumber}/hole/${holeNumber}/update-score/`;
@@ -213,16 +221,15 @@ export function updateGameSession(loopNumber, holeNumber, holeScore) {
         },
     })
     .then(response => {
-        console.log('Hole score updated:', response.data);
+        // ...existing code...
     })
     .catch(error => {
-        console.error('Error updating hole score:', error);
+        logger.error('Error updating hole score:', error);
     });
 }
 
+// Function to end the game session
 export function endGameSession(gameSessionId) {
-    console.log(`Ending game session ID: ${gameSessionId}`);
-    
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/${gameSessionId}/end/`;
@@ -236,18 +243,16 @@ export function endGameSession(gameSessionId) {
         },
     })
     .then(response => {
-        console.log('Game session ended:', response.data);
         return response.data;
     })
     .catch(error => {
-        console.error('Error ending game session:', error);
+        logger.error('Error ending game session:', error);
         throw error;
     });
 }
 
+// Function to complete the loop
 export function completeLoop(gameSessionId, loopNumber) {
-    console.log(`Completing loop number ${loopNumber} for game session ID: ${gameSessionId}`);
-    
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
     const apiUrl = `${baseUrl}/api/game-session/${gameSessionId}/loop/${loopNumber}/complete/`;
@@ -261,15 +266,15 @@ export function completeLoop(gameSessionId, loopNumber) {
         },
     })
     .then(response => {
-        console.log('Loop completed:', response.data);
         return response.data;
     })
     .catch(error => {
-        console.error('Error completing loop:', error);
+        logger.error('Error completing loop:', error);
         throw error;
     });
 }
 
+// Function to login the user
 export async function loginUser(username, password) {
     try {
         let baseUrl = window.location.origin;
@@ -282,11 +287,12 @@ export async function loginUser(username, password) {
         });
         return response.data;
     } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
         throw error;
     }
 }
 
+// Function to get game data
 export function getGameData(gameId) {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -299,11 +305,12 @@ export function getGameData(gameId) {
     })
     .then(response => response.data)
     .catch(error => {
-        console.error('Error fetching game data:', error);
+        logger.error('Error fetching game data:', error);
         throw error;
     });
 }
 
+// Function to fetch players
 export function fetchPlayers() {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -316,6 +323,7 @@ export function fetchPlayers() {
     .then(response => response.data);
 }
 
+// Function to fetch games
 export function fetchGames() {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -328,6 +336,7 @@ export function fetchGames() {
     .then(response => response.data);
 }
 
+// Function to fetch arcade
 export function fetchArcade() {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -340,6 +349,7 @@ export function fetchArcade() {
     .then(response => response.data);
 }
 
+// Function to get arcade ID for player
 export function getArcadeIdForPlayer(playerId) {
     let baseUrl = window.location.origin;
     baseUrl = baseUrl.replace('3000', '8000');
@@ -352,7 +362,7 @@ export function getArcadeIdForPlayer(playerId) {
     })
     .then(response => response.data.arcade_id)
     .catch(error => {
-        console.error('Error fetching arcade ID for player:', error);
+        logger.error('Error fetching arcade ID for player:', error);
         throw error;
     });
 }

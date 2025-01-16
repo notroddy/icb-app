@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { updateGameSession, addHoleScore, completeLoop } from "../../utils/api";
 import styles from "./ScoreContainer.module.css";
 
+/**
+ * ScoreContainer component to display and manage game scores.
+ * 
+ * @param {boolean} inputsDisabled - Flag to disable input fields.
+ * @param {string} gameSessionId - ID of the current game session.
+ */
 const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   const [score, setScore] = useState(0);
   const [loopScore, setLoopScore] = useState("0"); // Changed to string
@@ -9,6 +15,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
   const [loopNumber, setLoopNumber] = useState(1);
   const [time, setTime] = useState("00:00:00");
 
+  // Reset hole and loop numbers when inputs are disabled
   useEffect(() => {
     if (inputsDisabled) {
       setHoleNumber(1);
@@ -16,6 +23,7 @@ const ScoreContainer = ({ inputsDisabled, gameSessionId }) => {
     }
   }, [inputsDisabled]);
 
+  // Handle hole score input
   const handleHoleScoreInput = (e) => {
     if (e.key === "Enter" && gameSessionId) {
       const holeScore = parseInt(e.target.value, 10);

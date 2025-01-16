@@ -7,6 +7,13 @@ import SelectionContainer from "../SelectionContainer/SelectionContainer";
 /**
  * MasterContainer component that combines ProfileContainer and GameContainer.
  */
+
+/**
+ * @param {Object} props - The props object.
+ * @param {string} props.userId - The ID of the user.
+ * @param {string} props.gameId - The ID of the game.
+ * @param {string} props.arcadeId - The ID of the arcade.
+ */
 const MasterContainer = ({ userId, gameId, arcadeId }) => {
   const [showSelection, setShowSelection] = useState(false);
 
