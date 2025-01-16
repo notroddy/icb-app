@@ -5,3 +5,4 @@
 frontend/node_modules/.cache/
 frontend/node_modules/.cache/default-development/
 backend/.env
+*.pack
